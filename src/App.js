@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Grid } from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { GraphQLClient, ClientContext } from 'graphql-hooks'
+
+import Header from './components/Header'
+import { Home, PizzaMenu, PizzaOrder } from './routes'
+
+// TODO: should use config.json file?
+const GQ_PIZZA_URL = 'https://core-graphql.dev.waldo.photos/pizza' 
+const client = new GraphQLClient({
+  url: GQ_PIZZA_URL
+})
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <ClientContext.Provider value={client}>
+      <Router>
+        <Header/>
+        <Grid>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route path='/pizzaOrder' component={PizzaOrder} />
+            <Route path='/pizzaMenu' component={PizzaMenu} />
+          </Switch>
+        </Grid>
+      </Router>
+    </ClientContext.Provider>
+  )
+}  
 
-export default App;
+export default App
