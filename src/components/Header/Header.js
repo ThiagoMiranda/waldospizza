@@ -2,10 +2,46 @@ import React from 'react'
 import { Menu, Image, Header as SemanticHeader } from 'semantic-ui-react'
 import { Link, withRouter } from 'react-router-dom'
 
-import DefaultAvatar from '../../assets/images/default_avatar.png'
+import DefaultAvatar from '../../assets/images/avatar/default_avatar.png'
+import LoginModal from '../LoginModal'
+import { useStore } from '../../hooks/store/userProvider'
+
+function LoginMenuItem() {
+  return (
+    <LoginModal trigger={
+      <Menu.Item 
+      name='Login'
+      active={false}
+      position='right'
+      >
+        <SemanticHeader as='h2'>
+          <Image size='huge' circular bordered src={DefaultAvatar} />  
+        </SemanticHeader>
+        Login
+      </Menu.Item>
+    } />
+  )
+}
+
+function LoggedMenuItem({ name, avatar }) {
+  return (
+    <Menu.Item 
+    name={`Hello ${name}`}
+    active={false}
+    position='right'
+    >
+      <SemanticHeader as='h2'>
+        <Image size='huge' circular bordered src={avatar} />  
+      </SemanticHeader>
+      {`Welcome back ${name}`}
+    </Menu.Item>
+  )
+}
 
 export default withRouter(function Header(props) {
+  const { state } = useStore()
   const { location: { pathname } } = props
+  let profile = state.logged ? LoggedMenuItem(state) : LoginMenuItem()
 
   return (
     <Menu>
@@ -32,17 +68,7 @@ export default withRouter(function Header(props) {
         >
           <Link to='/pizzaMenu'>Check our Menu</Link>
         </Menu.Item>
-        <Menu.Item 
-          name='Login'
-          as='span'
-          active={false}
-          position='right'
-        >
-        <SemanticHeader as='h2'>
-          <Image circular bordered src={DefaultAvatar} />  
-        </SemanticHeader>
-          Login
-        </Menu.Item>
+        {profile}
       </Menu.Menu>
     </Menu>
   )
