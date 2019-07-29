@@ -28,7 +28,7 @@ export function BigInputSelect(props: InputProps) {
 }
 
 export function SmallInputSelect(props: InputProps) {
-  const options = (props.datalist.pizzaSizes || []).map(item => ({ key: item.name, text: item.name, value: item.name }))
+  const options = (props.datalist.pizzaSizes || []).map(item => ({ key: item.name, text: item.name, value: JSON.stringify({ size: item.name, maxToppings: item.maxToppings }) }))
   
   return (
     <Fragment>

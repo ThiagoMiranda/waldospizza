@@ -31,7 +31,7 @@ function reducer(state = defaultState, action={}) {
 
 const StoreContext = createContext(null)
 
-export function StoreProvider({ children }) {
+export function UserStoreProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, defaultState)
   const value = { state, dispatch }
 

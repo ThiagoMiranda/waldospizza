@@ -1,10 +1,8 @@
 
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Form, Checkbox, Loader, Segment } from 'semantic-ui-react'
 import { useQuery } from 'graphql-hooks'
  
-import { BigInputSelect, SmallInputSelect } from '../Inputs'
-
 const PIZZATOPPINGS_QUERY = `query PizzaToppingBySize ($name: PizzaSizes) {
   pizzaSizeByName(name: $name) {
     toppings {

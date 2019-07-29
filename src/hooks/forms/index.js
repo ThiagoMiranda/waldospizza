@@ -5,14 +5,6 @@ export const useForm = function(stateForm, validations = {}, callback) {
   const [disable, setDisable] = useState(true)
   const [isDirty, setIsDirty] = useState(false)
 
-  // useEffect(() => {
-  //   setDisable(true)
-  // }, [])
-
-  useEffect(() => {
-    isDirty && setDisable(validateState())
-  }, [formState, isDirty])
-
   const validateState = useCallback(() => {
     const hasError = Object.keys(validations).some(key => {
       const isRequired = validations[key].required
@@ -48,8 +40,12 @@ export const useForm = function(stateForm, validations = {}, callback) {
 
   const onSubmitHandler = useCallback(event => {
     event.preventDefault()
-    !validateState && callback(formState)
-  }, [formState])
+    !validateState() && callback(formState)
+  }, [formState, callback, validateState])
+
+  useEffect(() => {
+    isDirty && setDisable(validateState())
+  }, [formState, isDirty, validateState])
 
   return { formState, disable, onChangeHandler, onSubmitHandler }
 }

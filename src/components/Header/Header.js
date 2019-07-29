@@ -60,14 +60,6 @@ export default withRouter(function Header(props) {
         >
           <Link to='/pizzaOrder'>Order a Pizza</Link>
         </Menu.Item>
-        <Menu.Item 
-          name='Check our menu'
-          as='span'
-          active={pathname === '/pizzaMenu'}
-          position='right'
-        >
-          <Link to='/pizzaMenu'>Check our Menu</Link>
-        </Menu.Item>
         {profile}
       </Menu.Menu>
     </Menu>

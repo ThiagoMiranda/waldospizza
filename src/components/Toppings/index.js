@@ -1,3 +1,4 @@
 import Toppings from './Toppings'
+import SelectedToppings from './SelectedToppings'
 
-export default Toppings
+export { Toppings, SelectedToppings }

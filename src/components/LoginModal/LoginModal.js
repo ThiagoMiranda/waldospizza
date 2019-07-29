@@ -19,6 +19,7 @@ const loginValidation = {
   email: {
     required: true,
     validator:  {
+      // eslint-disable-next-line
       regEx: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, //  not mine regex!!
       error: 'Invalid email'
     }
@@ -39,15 +40,15 @@ export default function LoginModal(props) {
   const [ innvalidUser, setInvalidUser ] = useState(false)
   const [ loading, setLoading ] = useState(false)
 
-  function onLogin() {
+  function onLogin({ email, password }) {
     setLoading(true)
     setTimeout(function() {
-      if(formState.email.value !== User.email || formState.password.value !== User.password) {
+      setLoading(false)
+      if(email.value !== User.email || password.value !== User.password) {
         setInvalidUser(true)
       } else {
         dispatch({ type: LOGIN, payload: User })
       }
-      setLoading(false)
     }, 1500)
   }
 
@@ -57,7 +58,7 @@ export default function LoginModal(props) {
       <Modal.Content>
         <Grid centered>
           <Grid.Column width='10'>
-            <Form error={innvalidUser}>
+            <Form error={innvalidUser} onSubmit={onSubmitHandler}>
               <Form.Field>
                 <BasicInput 
                   type='email' 
@@ -82,7 +83,7 @@ export default function LoginModal(props) {
                 error
                 content='Invalid user!!!'
               />
-              <Button loading={loading} disabled={disable} onClick={onLogin} type='submit'>Login</Button>
+              <Button loading={loading} disabled={disable} type='submit'>Login</Button>
             </Form>
           </Grid.Column>
         </Grid>

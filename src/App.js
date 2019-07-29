@@ -5,8 +5,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { GraphQLClient, ClientContext } from 'graphql-hooks'
 
 import Header from './components/Header'
-import { Home, PizzaMenu, PizzaOrder } from './routes'
-import { StoreProvider } from './hooks/store/userProvider'
+import { Home, PizzaOrder } from './routes'
+import { UserStoreProvider } from './hooks/store/userProvider'
+import { PizzaStoreProvider } from './hooks/store/pizzaProvider'
 
 // TODO: should use config.json file?
 const GQ_PIZZA_URL = 'https://core-graphql.dev.waldo.photos/pizza' 
@@ -18,16 +19,17 @@ function App() {
   return (
     <ClientContext.Provider value={client}>
       <Router>
-        <StoreProvider>
+        <UserStoreProvider>
           <Header/>
-          <Grid>
+          <Grid centered>
             <Switch>
               <Route exact path='/' component={Home} />
-              <Route path='/pizzaOrder' component={PizzaOrder} />
-              <Route path='/pizzaMenu' component={PizzaMenu} />
+              <PizzaStoreProvider>
+                <Route path='/pizzaOrder' component={PizzaOrder} />
+              </PizzaStoreProvider>
             </Switch>
           </Grid>
-        </StoreProvider>
+        </UserStoreProvider>
       </Router>
     </ClientContext.Provider>
   )

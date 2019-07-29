@@ -5,25 +5,31 @@ import { ADD_TOPPING, REMOVE_TOPPING, CHANGE_SIZE } from './actions'
 const defaultState = {
   size: null,
   price: 0,
-  toppings: []
+  toppings: [],
+  maxToopings: null
 }
 
 function addTopping() {}
 function removeTopping() {}
-function changeSize() {}
+function changeSize(state) {
+  return {
+    ...defaultState,
+    ...state
+  }
+}
 
 function reducer(state = defaultState, action={}) {
   switch (action.type) {
-    case ADD_TOPPING: return addTopping(state)
-    case REMOVE_TOPPING: return removeTopping(state)
-    case CHANGE_SIZE: return changeSize(state)
+    case ADD_TOPPING: return addTopping(action.payload)
+    case REMOVE_TOPPING: return removeTopping(action.payload)
+    case CHANGE_SIZE: return changeSize(action.payload)
     default: return state
   }
 }
 
 const StoreContext = createContext(null)
 
-export function StoreProvider({ children }) {
+export function PizzaStoreProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, defaultState)
   const value = { state, dispatch }
 
