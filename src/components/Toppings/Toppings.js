@@ -15,18 +15,27 @@ const PIZZATOPPINGS_QUERY = `query PizzaToppingBySize ($name: PizzaSizes) {
   }
 }`
 
-export default function Toppings(props) {
+export default function Toppings({ selectTopping, selectedToppings, size }) {
   const { loading, error, data } = useQuery(PIZZATOPPINGS_QUERY, {
     variables: {
-      name: props.size
+      name: size
     }
   })
   let element
-
+  
   if (loading) element = <Segment><Loader active inline='centered' /></Segment>
-  if (data) element = data.pizzaSizeByName.toppings.map(item => <Form.Field key={item.topping.name} >
-    <Checkbox label={item.topping.name} checked={item.defaultSelected} />
-  </Form.Field>)
+  if (data) element = data.pizzaSizeByName.toppings.map(({ topping, defaultSelected }) => {
+    const checked = defaultSelected || selectedToppings.join().indexOf(topping.name) > -1
+    
+    return (
+      <Form.Field key={topping.name} >
+        <Checkbox 
+          label={topping.name} 
+          checked={checked} 
+          onChange={event => selectTopping(checked, topping)} />
+      </Form.Field>
+    )
+  })
 
   return (
     <Form.Group widths='15'>

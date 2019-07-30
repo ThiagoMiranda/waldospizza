@@ -10,10 +10,10 @@ const defaultState = {
   logged: false
 }
 
-function login(state) {
+function login(oldState, newState) {
   return {
-    ...defaultState,
-    ...state,
+    ...oldState,
+    ...newState,
     logged: true
   }
 }
@@ -23,7 +23,7 @@ function logout() {
 
 function reducer(state = defaultState, action={}) {
   switch (action.type) {
-    case LOGIN: return login(action.payload)
+    case LOGIN: return login(state, action.payload)
     case LOGOUT: return logout()
     default: return state
   }

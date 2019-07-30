@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { Grid, Container, Header, Form, Message } from 'semantic-ui-react'
 import { useQuery } from 'graphql-hooks'
  
@@ -21,7 +21,14 @@ function PizzaOrder() {
 
   function onSelectSize(event, data) {
     const value = JSON.parse(data.value)
-    dispatch({ type: CHANGE_SIZE, payload: { size: value.size.toUpperCase(), maxToppings: value.maxToppings } })
+    dispatch({ type: CHANGE_SIZE, payload: { 
+      size: value.size.toUpperCase(), 
+      maxToppings: value.maxToppings } 
+    })
+  }
+  
+  function onSelectTopping(checked, topping) {
+    dispatch({ type: checked ? REMOVE_TOPPING : ADD_TOPPING, payload: topping })
   }
   
   return (
@@ -42,9 +49,15 @@ function PizzaOrder() {
             <Message warning>
               You can only choose {state.maxToppings} toppings!
             </Message>
-            {data && <Toppings size='SMALL' />}
-            <SelectedToppings />
+            {state.size && <Toppings 
+                        selectedToppings={state.toppings} 
+                        selectTopping={onSelectTopping} 
+                        size={state.size} />}
           </Form>
+          <div>
+            <Header sub>Total Price</Header>
+            <span>$ {state.price.toFixed(2)}</span>
+          </div>
         </Container>
       </Grid.Column>
     </Fragment>

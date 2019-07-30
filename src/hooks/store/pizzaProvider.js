@@ -9,20 +9,32 @@ const defaultState = {
   maxToopings: null
 }
 
-function addTopping() {}
-function removeTopping() {}
-function changeSize(state) {
+function addTopping(oldState, newState) {
   return {
-    ...defaultState,
-    ...state
+    ...oldState,
+    ...{ toppings: oldState.toppings.concat(newState.name), price: oldState.price + newState.price }
+  }
+}
+
+function removeTopping(oldState, newState) {
+  return {
+    ...oldState,
+    ...{ toppings: oldState.toppings.filter((value) => value !== newState.name), price: oldState.price - newState.price }
+  }
+}
+
+function changeSize(oldState, newState) {
+  return {
+    ...oldState,
+    ...newState
   }
 }
 
 function reducer(state = defaultState, action={}) {
   switch (action.type) {
-    case ADD_TOPPING: return addTopping(action.payload)
-    case REMOVE_TOPPING: return removeTopping(action.payload)
-    case CHANGE_SIZE: return changeSize(action.payload)
+    case ADD_TOPPING: return addTopping(state, action.payload)
+    case REMOVE_TOPPING: return removeTopping(state, action.payload)
+    case CHANGE_SIZE: return changeSize(state, action.payload)
     default: return state
   }
 }
