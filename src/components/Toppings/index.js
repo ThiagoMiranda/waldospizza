@@ -1,3 +1,4 @@
+// @flow
 import Toppings from './Toppings'
 import SelectedToppings from './SelectedToppings'
 

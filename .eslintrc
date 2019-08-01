@@ -1,0 +1,29 @@
+{
+    "extends": ["standard", "plugin:react/recommended", "plugin:flowtype/recommended"],
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+      }
+    },
+    "env": {
+        "jest": true
+    },
+    "rules": {
+        "camelcase": "off",
+        "no-empty": "error",
+        "block-scoped-var": "error",
+        "max-classes-per-file": ["error", 1],
+        "vars-on-top": "error",
+        "no-useless-constructor": "error",
+        "react/jsx-boolean-value": "off",
+        "no-debugger": "warn",
+        "no-unused-vars": "warn"
+    },
+    "settings": {
+      "flowtype": {
+        "onlyFilesWithFlowAnnotation": true
+      }
+    }
+}

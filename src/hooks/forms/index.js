@@ -1,6 +1,7 @@
+// @flow
 import { useState, useEffect, useCallback } from 'react'
 
-export const useForm = function(stateForm, validations = {}, callback) {
+export const useForm = function (stateForm, validations = {}, callback) {
   const [formState, setFormState] = useState(stateForm)
   const [disable, setDisable] = useState(true)
   const [isDirty, setIsDirty] = useState(false)
@@ -26,15 +27,15 @@ export const useForm = function(stateForm, validations = {}, callback) {
       if (!value) error = 'This field is required!!!'
     }
 
-    if(inputValidator !== null && typeof inputValidator === 'object') {
-      if(value && !inputValidator.regEx.test(value)) {
+    if (inputValidator !== null && typeof inputValidator === 'object') {
+      if (value && !inputValidator.regEx.test(value)) {
         error = inputValidator.error
       }
     }
 
     setFormState(prevState => ({
       ...prevState,
-      [name]: {value, error}
+      [name]: { value, error }
     }))
   }, [validations])
 

@@ -9,35 +9,34 @@ type InputProps = {
   datalist: Array<any>
 }
 
-export function BasicInput(props: InputProps) {
+export function BasicInput (props: InputProps) {
   return (
-    <Form.Input 
+    <Form.Input
       fluid
       width={16}
       {...props} />
   )
 }
 
-export function BigInputSelect(props: InputProps) {
+export function BigInputSelect (props: InputProps) {
   return (
-    <Form.Input 
+    <Form.Input
       fluid
       width={10}
       {...props} />
   )
 }
 
-export function SmallInputSelect(props: InputProps) {
+export function SmallInputSelect (props: InputProps) {
   const options = (props.datalist.pizzaSizes || []).map(item => ({ key: item.name, text: item.name, value: JSON.stringify({ size: item.name, maxToppings: item.maxToppings }) }))
-  
+
   return (
     <Fragment>
       <Dropdown
         clearable
         selection
-        options={options} 
+        options={options}
         {...props}/>
     </Fragment>
   )
 }
-

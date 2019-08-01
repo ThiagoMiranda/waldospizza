@@ -1,9 +1,9 @@
 
+// @flow
 import React from 'react'
 import { Button, Image, List } from 'semantic-ui-react'
- 
 
-export default function SelectedToppings(props) {
+export default function SelectedToppings (props) {
   return (
     <List divided verticalAlign='middle'>
       <List.Item>
