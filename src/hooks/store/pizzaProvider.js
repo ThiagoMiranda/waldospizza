@@ -1,12 +1,12 @@
 import React, { createContext, useReducer, useContext } from 'react'
 
-import { ADD_TOPPING, REMOVE_TOPPING, CHANGE_SIZE } from './actions'
+import { ADD_TOPPING, REMOVE_TOPPING, CHANGE_SIZE, RESET_PIZZA } from './actions'
 
 const defaultState = {
   size: null,
   price: 0,
   toppings: [],
-  maxToopings: null
+  maxToppings: null
 }
 
 function addTopping(oldState, newState) {
@@ -35,6 +35,7 @@ function reducer(state = defaultState, action={}) {
     case ADD_TOPPING: return addTopping(state, action.payload)
     case REMOVE_TOPPING: return removeTopping(state, action.payload)
     case CHANGE_SIZE: return changeSize(state, action.payload)
+    case RESET_PIZZA: return defaultState
     default: return state
   }
 }
