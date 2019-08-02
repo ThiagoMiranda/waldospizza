@@ -66,6 +66,7 @@ export default function LoginModal (props: Props) {
             <Form error={innvalidUser} onSubmit={onSubmitHandler}>
               <Form.Field>
                 <BasicInput
+                  data-testid='email'
                   type='email'
                   label='Email:'
                   placeholder='Type your email...'
@@ -76,6 +77,7 @@ export default function LoginModal (props: Props) {
               </Form.Field>
               <Form.Field>
                 <BasicInput
+                  data-testid='password'
                   type='password'
                   label='Password:'
                   placeholder='Type your password...'
