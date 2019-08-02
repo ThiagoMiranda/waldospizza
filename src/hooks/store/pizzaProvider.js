@@ -42,7 +42,7 @@ function reducer (state: PizzaState = defaultState, action: Action = {}) {
   }
 }
 
-const StoreContext = React.createContext<null>(null)
+const StoreContext = React.createContext<Object, Function>(null)
 
 type Props = {
   children?: React.Node

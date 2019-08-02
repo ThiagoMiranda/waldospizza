@@ -1,6 +1,7 @@
 // @flow
 import React, { useState } from 'react'
 import { Button, Form, Modal, Grid, Message } from 'semantic-ui-react'
+import type { Node } from 'react'
 
 import { BasicInput } from '../Inputs'
 import { LOGIN } from '../../hooks/store/actions'
@@ -34,7 +35,11 @@ const loginForm = {
   password: { value: '', error: '' }
 }
 
-export default function LoginModal (props) {
+type Props = {
+  trigger: Node
+}
+
+export default function LoginModal (props: Props) {
   const { dispatch } = useStore()
   const { formState, disable, onChangeHandler, onSubmitHandler } = useForm(loginForm, loginValidation, onLogin)
   const [innvalidUser, setInvalidUser] = useState(false)

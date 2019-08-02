@@ -2,6 +2,8 @@
 import React from 'react'
 import { Grid, Container, Header, Form, Message, Button, Divider, Label, Icon } from 'semantic-ui-react'
 import { useQuery } from 'graphql-hooks'
+import { withRouter } from 'react-router-dom'
+import type { RouterHistory } from 'react-router-dom'
 
 import { SmallInputSelect } from '../components/Inputs'
 import { Toppings } from '../components/Toppings'
@@ -27,12 +29,16 @@ function getOrdersEl (pizzaOrders, onRemovePizza) {
   return orders
 }
 
-type Props = {}
+type Props = {
+  history: RouterHistory
+}
 
-function PizzaOrder () {
+function PizzaOrder (props: Props) {
   const { loading, error, data } = useQuery(PIZZASIZE_QUERY)
   const { state: pizzaState, dispatch: pizzaDispatch } = usePizzaStore()
   const { state: userState, dispatch: userDispatch } = useUserStore()
+
+  if (error) return <Grid.Column>Couldn't connect to the server :(</Grid.Column>
 
   function onSelectSize (event, data) {
     if (!data.value) return
@@ -64,7 +70,7 @@ function PizzaOrder () {
   }
 
   function finishOrder () {
-    console.info(JSON.stringify(userState))
+    props.history.push('/status')
   }
 
   return (
@@ -119,4 +125,4 @@ function PizzaOrder () {
   )
 }
 
-export default PizzaOrder
+export default withRouter(PizzaOrder)

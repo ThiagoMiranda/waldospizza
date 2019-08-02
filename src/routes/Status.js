@@ -4,9 +4,8 @@ import { Grid, Header, Container, Progress, Divider } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 import { useStore as useUserStore } from '../hooks/store/userProvider'
+import { RESET_ORDERS } from '../hooks/store/actions'
 import Orders from '../components/Orders'
-
-type Props = {}
 
 //  const teste = { name: 'John Waldo', email: 'john.waldo@waldo.com', avatar: '/static/media/user_avatar.62701a40.png', orders: [{ price: 2.28, size: 'SMALL', toppings: ['cheese', 'bannana peps', 'sausage'], id: 'ne3mf' }, { price: 2.58, size: 'LARGE', toppings: ['pepperoni', 'bannana peps', 'sausage'], id: 'i5pba' }, { price: 1.98, size: 'LARGE', toppings: ['pepperoni', 'onion', 'sausage'], id: 'owjg5' }, { price: 2.58, size: 'LARGE', toppings: ['pepperoni', 'bannana peps', 'sausage'], id: 'gzunl' }], logged: true, password: '123456' }
 
@@ -18,8 +17,10 @@ function useInterval (cb, time) {
   })
 
   useEffect(() => {
-    const id = setInterval(saved.current, time)
-    return () => clearInterval(id)
+    if (saved.current) {
+      const id = setInterval(saved.current, time)
+      return () => clearInterval(id)
+    }
   })
 }
 
@@ -27,6 +28,16 @@ function OrderStatus () {
   const { state, dispatch } = useUserStore()
   const [status, setStatus] = useState({ color: 'grey', percent: 33, message: 'Baking your fresh pizza!!!' })
   let total = 0
+
+  useEffect(() => {
+    let id
+
+    function clearOrders () {
+      dispatch({ type: RESET_ORDERS })
+    }
+    if (status.percent === 100) id = setTimeout(clearOrders, 3000)
+    return () => clearTimeout(id)
+  }, [status.percent])
 
   function callback () {
     const percent = (status.percent + 33) > 100 ? 100 : status.percent + 33

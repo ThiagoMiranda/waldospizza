@@ -2,9 +2,11 @@
 import * as React from 'react'
 import type { UserState, Action } from '../../types'
 
-import { LOGIN, LOGOUT, ADD_PIZZA, REMOVE_PIZZA } from './actions'
+import { LOGIN, LOGOUT, ADD_PIZZA, REMOVE_PIZZA, RESET_ORDERS } from './actions'
 
-const defaultState = {
+const user = window.localStorage.getItem('user')
+
+const defaultState = user ? JSON.parse(user) : {
   name: '',
   email: '',
   avatar: '',
@@ -18,14 +20,13 @@ function generateRandomId (): string {
 }
 
 function login (oldState, newState): UserState {
-  return {
+  const loggedUser = {
     ...oldState,
     ...newState,
     logged: true
   }
-}
-function logout (): UserState {
-  return defaultState
+  window.localStorage.setItem('user', JSON.stringify(loggedUser))
+  return loggedUser
 }
 
 function addOrder (oldState, newState): UserState {
@@ -47,17 +48,30 @@ function removePizza (oldState, id): UserState {
   }
 }
 
+function resetOrders (oldState): UserState {
+  return {
+    ...oldState,
+    ...{ orders: [] }
+  }
+}
+
+function logout () {
+  window.localStorage.removeItem('user')
+  return defaultState
+}
+
 function reducer (state: UserState = defaultState, action: Action = {}) {
   switch (action.type) {
     case LOGIN: return login(state, action.payload)
-    case LOGOUT: return logout()
     case ADD_PIZZA: return addOrder(state, action.payload)
     case REMOVE_PIZZA: return removePizza(state, action.payload)
+    case RESET_ORDERS: return resetOrders(state)
+    case LOGOUT: return logout()
     default: return state
   }
 }
 
-const StoreContext = React.createContext<null>(null)
+const StoreContext = React.createContext<Object, Function>(null)
 
 type Props = {
   children?: React.Node

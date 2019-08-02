@@ -4,7 +4,15 @@ import { Card, Image, Button, Header } from 'semantic-ui-react'
 
 import pizzaPlaceholder from '../../assets/images/pizza_placeholder.jpg'
 
-export default function PizzaCard ({ size, price, toppings, id, onRemovePizza }) {
+type Props = {
+  size: string,
+  price: number,
+  toppings: Array<string>,
+  id: string,
+  onRemovePizza: Function
+}
+
+export default function PizzaCard ({ size, price, toppings, id, onRemovePizza }: Props) {
   return (
     <Card.Group>
       <Card fluid>

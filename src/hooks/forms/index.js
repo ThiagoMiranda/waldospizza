@@ -1,7 +1,7 @@
 // @flow
 import { useState, useEffect, useCallback } from 'react'
 
-export const useForm = function (stateForm, validations = {}, callback) {
+export const useForm = function (stateForm: Object, validations: Object = {}, callback: Function) {
   const [formState, setFormState] = useState(stateForm)
   const [disable, setDisable] = useState(true)
   const [isDirty, setIsDirty] = useState(false)
@@ -17,7 +17,7 @@ export const useForm = function (stateForm, validations = {}, callback) {
     return hasError
   }, [formState, validations])
 
-  const onChangeHandler = useCallback(({ target: { name, value } }) => {
+  const onChangeHandler = useCallback(({ target: { name, value } }: Object) => {
     const inputValidator = validations[name].validator
     let error = ''
 
@@ -39,7 +39,7 @@ export const useForm = function (stateForm, validations = {}, callback) {
     }))
   }, [validations])
 
-  const onSubmitHandler = useCallback(event => {
+  const onSubmitHandler = useCallback((event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault()
     !validateState() && callback(formState)
   }, [formState, callback, validateState])

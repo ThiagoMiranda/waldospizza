@@ -1,6 +1,6 @@
 // @flow
 import React, { useEffect } from 'react'
-import { Form, Checkbox, Loader, Segment } from 'semantic-ui-react'
+import { Form, Checkbox, Loader, Segment, Grid } from 'semantic-ui-react'
 import { useQuery } from 'graphql-hooks'
 
 const PIZZATOPPINGS_QUERY = `query PizzaToppingBySize ($name: PizzaSizes) {
@@ -15,7 +15,14 @@ const PIZZATOPPINGS_QUERY = `query PizzaToppingBySize ($name: PizzaSizes) {
   }
 }`
 
-export default function Toppings ({ onSelectTopping, selectedToppings, size, maxToppings }) {
+type Props = {
+  onSelectTopping: Function,
+  selectedToppings: Array<string>,
+  size: string,
+  maxToppings: number
+}
+
+export default function Toppings ({ onSelectTopping, selectedToppings, size, maxToppings }: Props) {
   const { loading, error, data } = useQuery(PIZZATOPPINGS_QUERY, {
     variables: {
       name: size
@@ -27,6 +34,7 @@ export default function Toppings ({ onSelectTopping, selectedToppings, size, max
     if (data) onSelectTopping(false, data.pizzaSizeByName.toppings.find(({ defaultSelected }) => defaultSelected).topping)
   }, [data])
 
+  if (error) return <Grid.Column size='10'>Couldn't connect to the server!!</Grid.Column>
   if (loading) element = <Segment><Loader active inline='centered' /></Segment>
   if (data) {
     element = data.pizzaSizeByName.toppings.map(({ topping, defaultSelected }) => {

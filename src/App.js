@@ -25,7 +25,6 @@ function App () {
           <Grid centered>
             <Switch>
               <Route exact path='/' component={Home} />
-              {console.info(client)}
               <Route path='/status' component={Status} />
               <PizzaStoreProvider>
                 <Route path='/pizzaOrder' component={PizzaOrder} />

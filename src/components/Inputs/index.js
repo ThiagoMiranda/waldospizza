@@ -3,10 +3,12 @@ import React, { Fragment } from 'react'
 import { Form, Dropdown } from 'semantic-ui-react'
 
 type InputProps = {
-  id: string,
+  id?: string,
   label: string,
   placeholder: string,
-  datalist: Array<any>
+  datalist?: {
+    pizzaSizes: Array<Object>
+  }
 }
 
 export function BasicInput (props: InputProps) {
@@ -28,7 +30,8 @@ export function BigInputSelect (props: InputProps) {
 }
 
 export function SmallInputSelect (props: InputProps) {
-  const options = (props.datalist.pizzaSizes || []).map(item => ({ key: item.name, text: item.name, value: JSON.stringify({ size: item.name, maxToppings: item.maxToppings }) }))
+  let options
+  if (props.datalist) options = (props.datalist.pizzaSizes || []).map(item => ({ key: item.name, text: item.name, value: JSON.stringify({ size: item.name, maxToppings: item.maxToppings }) }))
 
   return (
     <Fragment>
@@ -39,4 +42,8 @@ export function SmallInputSelect (props: InputProps) {
         {...props}/>
     </Fragment>
   )
+}
+
+SmallInputSelect.defaultProps = {
+  datalist: {}
 }
