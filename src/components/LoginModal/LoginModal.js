@@ -88,7 +88,7 @@ export default function LoginModal (props: Props) {
               </Form.Field>
               <Message
                 error
-                content='Invalid user!!!'
+                content='Invalid username or password!!!'
               />
               <Button loading={loading} disabled={disable} type='submit'>Login</Button>
             </Form>
