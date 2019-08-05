@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Grid, Container, Header, Form, Message, Button, Divider, Label, Icon } from 'semantic-ui-react'
 import { useQuery } from 'graphql-hooks'
 import { withRouter } from 'react-router-dom'
@@ -21,14 +21,6 @@ const PIZZASIZE_QUERY = `query PizzaSize {
   }
 }`
 
-function getOrdersEl (pizzaOrders, onRemovePizza) {
-  const orders = pizzaOrders.map(item => <Orders
-    key={item.id}
-    onRemovePizza={onRemovePizza}
-    {...item} />)
-  return orders
-}
-
 type Props = {
   history: RouterHistory
 }
@@ -37,6 +29,14 @@ function PizzaOrder (props: Props) {
   const { loading, error, data } = useQuery(PIZZASIZE_QUERY)
   const { state: pizzaState, dispatch: pizzaDispatch } = usePizzaStore()
   const { state: userState, dispatch: userDispatch } = useUserStore()
+
+  let ordersEl = useMemo(function () {
+    const orders = userState.orders.map(item => <Orders
+      key={item.id}
+      onRemovePizza={onRemovePizza}
+      {...item} />)
+    return orders
+  }, [userState.orders])
 
   if (error) return <Grid.Column>Couldn't connect to the server :(</Grid.Column>
 
@@ -112,7 +112,7 @@ function PizzaOrder (props: Props) {
       </Form>
       <Divider />
       <Container>
-        {getOrdersEl(userState.orders, onRemovePizza)}
+        {ordersEl}
       </Container>
       <Divider />
       <Container>
